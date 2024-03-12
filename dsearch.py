@@ -5,17 +5,27 @@
 #######
 import requests
 url = str(input("Alvo>"))
+ext = str(input("Extenção>"))
 word = str(input("Wordlist>"))
-c = 0
 with open(word, "r") as rw:
     with open("DSearch_log.txt", "w") as wwd:
         for out in rw.readlines():
-            c = c+1
+            # ler diretórios
             x = url + "/" + out.rstrip("\n")
             getd = requests.get(x)
             code = getd.status_code
             print("{} -> {}".format(getd.status_code, x))
-            ok = "{} -> {}".format(getd.status_code, x)
-            wwd.write(ok)
+            okd = "{} -> {}".format(getd.status_code, x)
+            # ler arquivos
+            y = x + "." + ext
+            getf = requests.get(y)
+            print("{} -> {}".format(getf.status_code, y))
+            okf = "{} -> {}".format(getf.status_code, y)
+            # salva em log
+            # dir
+            wwd.write(okd)
+            wwd.write("\n")
+            # file
+            wwd.write(okf)
             wwd.write("\n")
 print("Scan completo!")
